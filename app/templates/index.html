@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Automated Research Assistant</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <!-- Bootstrap for styling -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <h1 class="text-center text-primary mb-4">Automated Research Assistant</h1>
+        <p class="lead text-center">
+            Enter your research query below to find and summarize relevant academic papers.
+        </p>
+
+        <!-- Search Form -->
+        <form id="queryForm" class="d-flex justify-content-center mb-4">
+            <input type="text" id="queryInput" class="form-control me-2" style="max-width: 500px;" placeholder="Enter your query" required>
+            <button type="submit" class="btn btn-success">Search</button>
+        </form>
+
+        <!-- Results Section -->
+        <div id="results" class="mt-4"></div>
+
+        <!-- Summary Section (Hidden Initially) -->
+        <div id="summarySection" class="mt-4" style="display: none;">
+            <h2 class="text-secondary">Summary</h2>
+            <div id="summaryContent" class="card p-3"></div>
+            <button class="btn btn-primary mt-3" onclick="resetSearch()">Back to Results</button>
+        </div>
+    </div>
+
+    <script>
+        // Handle the search form submission
+        document.getElementById("queryForm").addEventListener("submit", async function(e) {
+            e.preventDefault();
+            const query = document.getElementById("queryInput").value.trim();
+            if (!query) return;
+
+            const resultsDiv = document.getElementById("results");
+            resultsDiv.innerHTML = '<p class="text-center">Searching for papers...</p>';
+
+            try {
+                const response = await fetch(`/search?query=${encodeURIComponent(query)}`);
+                const data = await response.json();
+
+                if (!data.papers || data.papers.length === 0) {
+                    resultsDiv.innerHTML = '<p class="text-danger text-center">No papers found.</p>';
+                    return;
+                }
+
+                let html = `<h2 class="text-secondary">Available Papers</h2><ul class="list-group">`;
+                data.papers.forEach(paper => {
+                    html += `
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            ${paper.title}
+                            <button class="btn btn-outline-primary btn-sm" onclick="fetchSummary('${paper.id}')">Summarize</button>
+                        </li>
+                    `;
+                });
+                html += `</ul>`;
+                resultsDiv.innerHTML = html;
+            } catch (error) {
+                console.error(error);
+                resultsDiv.innerHTML = '<p class="text-danger text-center">Error fetching results.</p>';
+            }
+        });
+
+        // Fetch summary for a selected paper
+        async function fetchSummary(paperId) {
+            document.getElementById("results").style.display = "none";
+            document.getElementById("summarySection").style.display = "block";
+            const summaryDiv = document.getElementById("summaryContent");
+            summaryDiv.innerHTML = '<p class="text-center">Generating summary...</p>';
+
+            try {
+                const response = await fetch(`/summarize?paper_id=${paperId}`);
+                const data = await response.json();
+                summaryDiv.innerHTML = `
+                    <h5>${data.paper.title}</h5>
+                    <p>${data.summary}</p>
+                `;
+            } catch (error) {
+                console.error(error);
+                summaryDiv.innerHTML = '<p class="text-danger">Error generating summary.</p>';
+            }
+        }
+
+        // Reset the UI to show search results again
+        function resetSearch() {
+            document.getElementById("summarySection").style.display = "none";
+            document.getElementById("results").style.display = "block";
+        }
+    </script>
+</body>
+</html>
+
+

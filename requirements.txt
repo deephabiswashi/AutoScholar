@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+crewai
+jinja2
+aiofiles
+requests
+ollama               
+elasticsearch
+python-dotenv
