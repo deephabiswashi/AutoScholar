@@ -1,0 +1,34 @@
+# Ignore Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+env/
+env2/
+venv/
+*.venv/
+
+# Environment variables
+.env
+
+# Ignore data files
+*.pdf
+researchpdfs/
+
+# Ignore dependencies
+*.log
+*.sqlite3
+*.db
+.DS_Store
+
+# Ignore IDE and OS-specific files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Ignore compiled and temporary files
+*.tmp
+*.bak
