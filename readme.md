@@ -75,7 +75,7 @@ AutoScholar/
 
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/yourusername/autoscholar.git
+   git clone https://github.com/deephabiswashi/AutoScholar.git
    cd autoscholar
    ```
 
@@ -122,6 +122,27 @@ AutoScholar/
   - **Individual Summaries:** View summaries for each paper.
   - **Aggregated Summary:** Get one combined summary for all retrieved papers.
 - The UI is dynamic and minimal, ensuring ease-of-use and clarity.
+
+---
+
+## Screenshots
+
+### Home Page
+![Home Page](screenshots/homepage.png)
+
+### Search Result 1
+![Search Results](screenshots/searchresult1.png)
+
+### Search Result 2
+![Search Results](screenshots/searchresult2.png)
+
+### Summarization Page
+![Summarization](screenshots/summaryresult.png)
+
+---
+
+## 🎥 Video Demonstration
+🔗 [Click here to watch the demo on YouTube](https://youtu.be/YanBOPGoFT8?si=jogjDaytylcPsq0Z)
 
 ---
 
